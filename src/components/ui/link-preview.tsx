@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 type LinkPreviewProps = {
   children: React.ReactNode;
   url: string;
+  darkModeEnabled?: boolean;
   className?: string;
   width?: number;
   height?: number;
@@ -29,6 +30,7 @@ export const LinkPreview = ({
   children,
   url,
   className,
+  darkModeEnabled,
   width = 200,
   height = 125,
   isStatic = false,
@@ -89,10 +91,18 @@ export const LinkPreview = ({
       >
         <HoverCardPrimitive.Trigger
           onMouseMove={handleMouseMove}
-          className={cn("text-black dark:text-white", className)}
           href={url}
           target="_blank"
           rel="noopener noreferrer"
+          style={{
+            color:
+              darkModeEnabled === false
+                ? "#3f3f3f"
+                : darkModeEnabled === true
+                ? "#f2f2f2"
+                : undefined,
+          }}
+          className={cn("", className)}
         >
           {children}
         </HoverCardPrimitive.Trigger>

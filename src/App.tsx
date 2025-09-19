@@ -9,14 +9,17 @@ import {
 } from "react-icons/md";
 import { useState } from "react";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { IoSunnyOutline } from "react-icons/io5";
+import { LuMoon } from "react-icons/lu";
 
 function App() {
   const isLessThanTablet = useMediaQuery("(max-width: 785px)");
   const isLessThanMobile = useMediaQuery("(max-width: 425px)");
 
-  const [isFlashing, setIsFlashing] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isFlashing, setIsFlashing] = useState<boolean>(false);
+  const [showPreview, setShowPreview] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [darkModeEnabled, setDarkModeEnabled] = useState<boolean>(false);
 
   const copyEmailToClipBoard = () => {
     if (navigator.clipboard) {
@@ -75,14 +78,29 @@ function App() {
     );
   };
 
+  const handleDarkModeToggle = () => {
+    setDarkModeEnabled((prev) => !prev);
+  };
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start">
-      <div className="max-w-[97%] lg:max-w-[1000px] w-full h-full border border-black flex flex-col items-start justify-between gap-4 p-6 my-2">
+    <div
+      className="min-h-screen flex flex-col items-center justify-start"
+      style={{
+        backgroundColor: darkModeEnabled ? "#001219" : "white",
+        color: darkModeEnabled ? "#f2f2f2" : "#3f3f3f",
+      }}
+    >
+      <div
+        className="max-w-[97%] lg:max-w-[1000px] w-full h-full border flex flex-col items-start justify-between gap-4 p-6 my-2"
+        style={{
+          borderColor: darkModeEnabled ? "#f2f2f2" : "#3f3f3f",
+        }}
+      >
         <div className="flex flex-col items-start justify-center w-full gap-1">
           <p className="text-lg xm:text-xl font-bold">R Yogesh Limbani</p>
           <div className="flex flex-wrap items-center justify-start w-full gap-1 md:gap-2">
             <p
-              className="text-sm xm:text-base md2:text-lg sx:font-semibold hover:text-[#4938e9] cursor-pointer"
+              className="text-sm xm:text-base md2:text-lg xm:font-semibold cursor-pointer underline underline-offset-2"
               onClick={copyEmailToClipBoard}
             >
               yrlimbani03@gmail.com
@@ -90,30 +108,38 @@ function App() {
             <RiPokerDiamondsLine />
             <LinkPreview
               url="https://yogeshr6.vercel.app/"
-              className="text-sm xm:text-base md2:text-lg xm:font-semibold hover:text-[#4938e9] cursor-pointer"
+              className="text-sm xm:text-base md2:text-lg xm:font-semibold cursor-pointer underline underline-offset-2"
+              darkModeEnabled={darkModeEnabled}
             >
               yogeshr6.vercel.com
             </LinkPreview>
             <RiPokerDiamondsLine />
             <LinkPreview
               url="https://github.com/YogeshR6"
-              className="text-sm xm:text-base md2:text-lg xm:font-semibold hover:text-[#4938e9] cursor-pointer"
+              className="text-sm xm:text-base md2:text-lg xm:font-semibold cursor-pointer underline underline-offset-2"
+              darkModeEnabled={darkModeEnabled}
             >
               github.com/yogeshr6
             </LinkPreview>
             <RiPokerDiamondsLine />
             <LinkPreview
               url="https://maps.app.goo.gl/RAMLQvN9VZvdvDmBA"
-              className="text-sm xm:text-base md2:text-lg xm:font-semibold hover:text-[#4938e9] cursor-pointer"
+              className="text-sm xm:text-base md2:text-lg xm:font-semibold cursor-pointer underline underline-offset-2"
               isStatic
               imageSrc="/chennai.png"
+              darkModeEnabled={darkModeEnabled}
             >
               Chennai, India
             </LinkPreview>
           </div>
         </div>
         <div className="flex flex-col items-start justify-center w-full gap-1">
-          <p className="font-semibold xm:font-bold w-full border-b border-black">
+          <p
+            className="font-semibold xm:font-bold w-full border-b"
+            style={{
+              borderColor: darkModeEnabled ? "#f2f2f2" : "#3f3f3f",
+            }}
+          >
             INTERNSHIPS AND EXPERIENCE
           </p>
           <div className="flex flex-col items-start justify-center w-full gap-2">
@@ -125,7 +151,8 @@ function App() {
                 -{" "}
                 <LinkPreview
                   url="https://victopialabs.com/"
-                  className="hover:text-[#4938e9] cursor-pointer"
+                  className="cursor-pointer underline underline-offset-2"
+                  darkModeEnabled={darkModeEnabled}
                 >
                   Victopia Labs
                 </LinkPreview>{" "}
@@ -159,7 +186,8 @@ function App() {
                 -{" "}
                 <LinkPreview
                   url="https://internways.com/"
-                  className="hover:text-[#4938e9] cursor-pointer"
+                  className="cursor-pointer underline underline-offset-2"
+                  darkModeEnabled={darkModeEnabled}
                 >
                   Intern Ways
                 </LinkPreview>{" "}
@@ -175,7 +203,12 @@ function App() {
           </div>
         </div>
         <div className="flex flex-col items-start justify-center w-full gap-1">
-          <p className="font-semibold xm:font-bold w-full border-b border-black">
+          <p
+            className="font-semibold xm:font-bold w-full border-b"
+            style={{
+              borderColor: darkModeEnabled ? "#f2f2f2" : "#3f3f3f",
+            }}
+          >
             PROJECTS
           </p>
           <div className="flex flex-col items-start justify-center w-full gap-2">
@@ -268,7 +301,12 @@ function App() {
           </div>
         </div>
         <div className="flex flex-col items-start justify-center w-full gap-1">
-          <p className="font-semibold xm:font-bold w-full border-b border-black">
+          <p
+            className="font-semibold xm:font-bold w-full border-b"
+            style={{
+              borderColor: darkModeEnabled ? "#f2f2f2" : "#3f3f3f",
+            }}
+          >
             EDUCATION
           </p>
           <div className="flex flex-col items-start justify-center w-full gap-2">
@@ -300,7 +338,12 @@ function App() {
           </div>
         </div>
         <div className="flex flex-col items-start justify-center w-full gap-1">
-          <p className="font-semibold xm:font-bold w-full border-b border-black">
+          <p
+            className="font-semibold xm:font-bold w-full border-b"
+            style={{
+              borderColor: darkModeEnabled ? "#f2f2f2" : "#3f3f3f",
+            }}
+          >
             SKILLS
           </p>
           <div className="flex flex-col items-start justify-center w-full gap-2">
@@ -339,7 +382,12 @@ function App() {
           </div>
         </div>
         <div className="flex flex-col items-start justify-center w-full gap-1">
-          <p className="font-semibold xm:font-bold w-full border-b border-black">
+          <p
+            className="font-semibold xm:font-bold w-full border-b"
+            style={{
+              borderColor: darkModeEnabled ? "#f2f2f2" : "#3f3f3f",
+            }}
+          >
             EXTRA CURRICULAR ACTIVITIES
           </p>
           <div className="flex flex-col items-start justify-center w-full gap-2">
@@ -361,7 +409,20 @@ function App() {
         </div>
       </div>
 
-      <div className="fixed bottom-3 xm:bottom-10 right-3 xm:right-10 rounded-full border border-black p-1 xm:p-2 bg-indigo-600">
+      <div className="fixed bottom-3 xm:bottom-10 right-3 xm:right-10 rounded-full border p-1 xm:p-2 bg-indigo-600 flex flex-row items-center justify-center gap-1">
+        {darkModeEnabled ? (
+          <IoSunnyOutline
+            size={isLessThanMobile ? "35" : "45"}
+            className="cursor-pointer hover:bg-indigo-700 rounded-full py-1 px-2 text-white"
+            onClick={handleDarkModeToggle}
+          />
+        ) : (
+          <LuMoon
+            size={isLessThanMobile ? "35" : "45"}
+            className="cursor-pointer hover:bg-indigo-700 rounded-full py-1 px-2 text-white"
+            onClick={handleDarkModeToggle}
+          />
+        )}
         {isLessThanMobile ? (
           <MdScreenshot
             size="35"
