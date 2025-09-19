@@ -1,8 +1,18 @@
 import { RiPokerDiamondsLine } from "react-icons/ri";
 import { LinkPreview } from "./components/ui/link-preview";
 import { toast } from "sonner";
+import {
+  MdDownloadForOffline,
+  MdOpenInNew,
+  MdOutlineScreenshotMonitor,
+} from "react-icons/md";
+import { useState } from "react";
 
 function App() {
+  const [isFlashing, setIsFlashing] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const copyEmailToClipBoard = () => {
     if (navigator.clipboard) {
       navigator.clipboard
@@ -20,9 +30,49 @@ function App() {
         });
     }
   };
+
+  const handleScreenshotClick = () => {
+    if (isProcessing) return;
+
+    setIsProcessing(true);
+
+    setIsFlashing(true);
+    setTimeout(() => {
+      setShowPreview(true);
+    }, 500);
+
+    setTimeout(() => {
+      setIsFlashing(false);
+    }, 400);
+    setTimeout(() => {
+      setShowPreview(false);
+    }, 5000);
+
+    setTimeout(() => {
+      setIsProcessing(false);
+    }, 5500);
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = "/yogesh_resume.pdf";
+    link.download = "Yogesh_Resume.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleView = () => {
+    window.open(
+      "https://drive.google.com/file/d/1dpoe2RfPB43PFApNWHFazUa25brflgqg/view?usp=sharing",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-start">
-      <div className="max-w-[1000px] w-full h-full border border-black flex flex-col items-start justify-between gap-4 p-6 mb-2">
+      <div className="max-w-[1000px] w-full h-full border border-black flex flex-col items-start justify-between gap-4 p-6 my-2">
         <div className="flex flex-col items-start justify-center w-full gap-1">
           <p className="text-xl font-bold">R Yogesh Limbani</p>
           <div className="flex flex-row items-center justify-start w-full gap-2">
@@ -154,8 +204,8 @@ function App() {
               <ul className="list-disc list-inside py-1 pl-1 sm:pl-3">
                 <li>HTML, CSS, EJS, Node JS, Express JS, MongoDB</li>
                 <li>
-                  Website to discover food places in Chennai or add favorite
-                  spots, review spots posted by other users.
+                  Developed a website to discover food places in Chennai or add
+                  favorite spots, review spots posted by other users.
                 </li>
               </ul>
             </div>
@@ -271,6 +321,57 @@ function App() {
                 <span className="font-bold">Designer</span> - ACE Club
               </li>
             </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="fixed bottom-10 right-10 rounded-full border border-black p-2 bg-indigo-600">
+        <MdOutlineScreenshotMonitor
+          size="45"
+          className="cursor-pointer hover:bg-indigo-700 rounded-full py-1 px-2 text-white"
+          onClick={handleScreenshotClick}
+        />
+      </div>
+
+      <div
+        className={`fixed inset-0 bg-white transition-opacity duration-400 ease-in-out pointer-events-none ${
+          isFlashing ? "opacity-90" : "opacity-0"
+        }`}
+        style={{ zIndex: 9998 }}
+      ></div>
+
+      <div
+        className={`fixed bottom-8 left-8 bg-white rounded-lg shadow-2xl p-4 flex items-center space-x-4 transition-all duration-500 ease-out transform ${
+          showPreview ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
+        style={{ zIndex: 10000 }}
+      >
+        <div className="w-16 h-20 bg-gray-200 border border-gray-900 rounded-md flex items-center justify-center">
+          <img
+            src="/yogesh_resume_preview.jpg"
+            alt="Resume Preview"
+            className="w-16 h-20"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <p className="font-semibold text-gray-800">Yogesh's Resume.pdf</p>
+          <p className="text-sm text-gray-500">Ready to share</p>
+          <div className="mt-3 flex space-x-3">
+            <button
+              onClick={handleDownload}
+              className="px-3 py-1 bg-indigo-600 text-white rounded-md text-sm font-semibold flex items-center space-x-1 hover:bg-indigo-700 transition-colors cursor-pointer"
+            >
+              <MdDownloadForOffline size="15" className="mt-[1px]" />
+              <span>Download</span>
+            </button>
+            <button
+              onClick={handleView}
+              className="px-3 py-1 bg-gray-200 text-gray-800 rounded-md text-sm font-semibold flex items-center space-x-1.5 hover:bg-gray-300 transition-colors cursor-pointer"
+            >
+              <MdOpenInNew size="15" className="mt-[1px]" />
+              <span>View</span>
+            </button>
           </div>
         </div>
       </div>
